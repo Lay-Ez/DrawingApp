@@ -11,23 +11,25 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: ViewModel by viewModel()
 
-    private lateinit var toolsLayouts: List<ToolsLayout>
+    private lateinit var colorPalette: ToolsLayout
+    private lateinit var size: ToolsLayout
+    private lateinit var styles: ToolsLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        toolsLayouts = listOf(
-            palette as ToolsLayout,
-            size as ToolsLayout,
-            tools as ToolsLayout
-        )
-        toolsLayouts[0].setOnClickListener {
+
+        colorPalette = colorPaletteLayout as ToolsLayout
+        size = sizeLayout as ToolsLayout
+        styles = brushStylesLayout as ToolsLayout
+
+        colorPalette.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnColorClick(it))
         }
-        toolsLayouts[1].setOnClickListener {
+        size.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnSizeClick(it))
         }
-        toolsLayouts[2].setOnClickListener {
+        styles.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnToolsClick(it))
         }
         viewModel.viewState.observe(this, Observer(::render))
@@ -37,12 +39,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun render(viewState: ViewState) {
-        toolsLayouts[0].showIf(viewState.isPaletteVisible)
-        toolsLayouts[0].render(viewState.colorList)
-        toolsLayouts[1].showIf(viewState.isBrushSizeChangerVisible)
-        toolsLayouts[1].render(viewState.sizeList)
-        toolsLayouts[2].showIf(viewState.isToolsVisible)
-        toolsLayouts[2].render(viewState.toolsList)
+        colorPalette.showIf(viewState.isPaletteVisible)
+        colorPalette.render(viewState.colorList)
+
+        size.showIf(viewState.isBrushSizeChangerVisible)
+        size.render(viewState.sizeList)
+
+        styles.showIf(viewState.isToolsVisible)
+        styles.render(viewState.toolsList)
+
         drawView.render(viewState.canvasViewState)
     }
 }
