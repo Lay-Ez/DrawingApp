@@ -14,7 +14,7 @@ class ToolsLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : CardView(context, attrs, defStyleAttr) {
 
-    private var onClick: (Int) -> Unit = {}
+    private var onClick: (ToolItem) -> Unit = {}
 
     private val adapterDelegate = ListDelegationAdapter(
         colorAdapterDelegate {
@@ -38,7 +38,7 @@ class ToolsLayout @JvmOverloads constructor(
         adapterDelegate.items = list
     }
 
-    fun setOnClickListener(onClick: (Int) -> Unit) {
+    fun setOnClickListener(onClick: (ToolItem) -> Unit) {
         this.onClick = onClick
     }
 }

@@ -36,11 +36,19 @@ enum class SIZE(
 
 enum class TOOLS(
     @DrawableRes
-    val value: Int
+    val value: Int,
+    val toolId: ToolId
 ) {
-    NORMAL(R.drawable.ic_baseline_brush_24),
-    STROKE(R.drawable.ic_baseline_brush_24),
-    SIZE(R.drawable.ic_baseline_brush_24),
-    PALETTE(R.drawable.ic_baseline_brightness_1_24)
+    NORMAL(R.drawable.ic_baseline_brush_24, ToolId.NORMAL_TOOL),
+    STROKE(R.drawable.ic_baseline_brush_24, ToolId.STROKE_TOOL),
+    SIZE(R.drawable.ic_baseline_brush_24, ToolId.SIZE_TOOL),
+    PALETTE(R.drawable.ic_baseline_brightness_1_24, ToolId.COLOR_TOOL);
+
+    enum class ToolId {
+        NORMAL_TOOL,
+        STROKE_TOOL,
+        COLOR_TOOL,
+        SIZE_TOOL
+    }
 }
 

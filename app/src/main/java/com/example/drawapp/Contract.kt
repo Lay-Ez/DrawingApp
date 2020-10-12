@@ -14,9 +14,8 @@ data class ViewState(
 )
 
 sealed class UiEvent() : Event{
-    data class OnPaletteClicked(val index: Int) : UiEvent()
-    data class OnColorClick(val index: Int) : UiEvent()
-    data class OnSizeClick(val index: Int) : UiEvent()
-    data class OnToolsClick(val index: Int) : UiEvent()
-    object OnToolbarClicked: UiEvent()
+    data class OnColorClick(val toolItem: ToolItem) : UiEvent()
+    data class OnSizeClick(val toolItem: ToolItem) : UiEvent()
+    data class OnToolsClick(val toolItem: ToolItem) : UiEvent()
+    object OnToolbarClicked : UiEvent()
 }

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_size.view.*
 import kotlinx.android.synthetic.main.item_tools.view.*
 
 fun colorAdapterDelegate(
-    onClick: (Int) -> Unit
+    onClick: (ToolItem) -> Unit
 ): AdapterDelegate<List<Item>> =
     adapterDelegateLayoutContainer<ToolItem.ColorModel, Item>(
         R.layout.item_palette
@@ -19,32 +19,32 @@ fun colorAdapterDelegate(
                 context.resources.getColor(item.color),
                 PorterDuff.Mode.SRC_IN
             )
-            itemView.setOnClickListener { onClick(adapterPosition) }
+            itemView.setOnClickListener { onClick(item) }
         }
     }
 
 fun sizeChangeAdapterDelegate(
-    onSizeClick: (Int) -> Unit
+    onSizeClick: (ToolItem) -> Unit
 ): AdapterDelegate<List<Item>> = adapterDelegateLayoutContainer<ToolItem.SizeModel, Item>(
     R.layout.item_size
 ) {
     bind { list ->
         itemView.tvToolsSize.text = item.size.toString()
         itemView.setOnClickListener {
-            onSizeClick(adapterPosition)
+            onSizeClick(item)
         }
     }
 }
 
 fun toolsAdapterDelegate(
-    onToolsClick: (Int) -> Unit
+    onToolsClick: (ToolItem) -> Unit
 ): AdapterDelegate<List<Item>> = adapterDelegateLayoutContainer<ToolItem.ToolModel, Item>(
     R.layout.item_tools
 ) {
     bind { list ->
         itemView.ivTool.setImageResource(item.icon)
         itemView.setOnClickListener {
-            onToolsClick(adapterPosition)
+            onToolsClick(item)
         }
     }
 }
