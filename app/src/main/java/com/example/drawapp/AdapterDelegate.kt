@@ -43,6 +43,10 @@ fun toolsAdapterDelegate(
 ) {
     bind { list ->
         itemView.ivTool.setImageResource(item.icon)
+        itemView.ivTool.setColorFilter(
+            context.resources.getColor(item.currentColor),
+            PorterDuff.Mode.SRC_IN
+        )
         itemView.setOnClickListener {
             onToolsClick(item)
         }

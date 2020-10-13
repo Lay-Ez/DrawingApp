@@ -34,8 +34,14 @@ class ToolsLayout @JvmOverloads constructor(
         toolsList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    fun render(list: List<ToolItem>) {
+    fun render(list: List<ToolItem>, canvasViewState: CanvasViewState) {
+        list.forEach { toolItem ->
+            if (toolItem is ToolItem.ToolModel && toolItem.toolId == TOOLS.ToolId.COLOR_TOOL) {
+                toolItem.currentColor = canvasViewState.color.value
+            }
+        }
         adapterDelegate.items = list
+        adapterDelegate.notifyDataSetChanged()
     }
 
     fun setOnClickListener(onClick: (ToolItem) -> Unit) {

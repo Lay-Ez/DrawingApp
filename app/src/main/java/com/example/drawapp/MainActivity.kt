@@ -26,12 +26,15 @@ class MainActivity : AppCompatActivity() {
         colorPalette.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnColorClick(it))
         }
+
         size.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnSizeClick(it))
         }
+
         tools.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnToolsClick(it))
         }
+
         viewModel.viewState.observe(this, Observer(::render))
 
         openPalette.setOnClickListener {
@@ -41,13 +44,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun render(viewState: ViewState) {
         colorPalette.showIf(viewState.isPaletteVisible)
-        colorPalette.render(viewState.colorList)
+        colorPalette.render(viewState.colorList, viewState.canvasViewState)
 
         size.showIf(viewState.isBrushSizeChangerVisible)
-        size.render(viewState.sizeList)
+        size.render(viewState.sizeList, viewState.canvasViewState)
 
         tools.showIf(viewState.isToolsVisible)
-        tools.render(viewState.toolsList)
+        tools.render(viewState.toolsList, viewState.canvasViewState)
 
         drawView.render(viewState.canvasViewState)
     }
