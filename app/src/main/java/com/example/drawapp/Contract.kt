@@ -18,4 +18,5 @@ sealed class UiEvent() : Event{
     data class OnSizeClick(val toolItem: ToolItem) : UiEvent()
     data class OnToolsClick(val toolItem: ToolItem) : UiEvent()
     object OnToolbarClicked : UiEvent()
+    object OnCanvasTouched : UiEvent()
 }

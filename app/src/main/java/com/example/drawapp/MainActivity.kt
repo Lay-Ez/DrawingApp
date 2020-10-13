@@ -7,7 +7,7 @@ import com.example.drawapp.base.showIf
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DrawView.OnCanvasTouchListener {
 
     private val viewModel: ViewModel by viewModel()
 
@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         openPalette.setOnClickListener {
             viewModel.processUiEvent(UiEvent.OnToolbarClicked)
         }
+        drawView.addTouchListener(this)
     }
 
     private fun render(viewState: ViewState) {
@@ -53,6 +54,10 @@ class MainActivity : AppCompatActivity() {
         tools.render(viewState.toolsList, viewState.canvasViewState)
 
         drawView.render(viewState.canvasViewState)
+    }
+
+    override fun onCanvasTouched() {
+        viewModel.processUiEvent(UiEvent.OnCanvasTouched)
     }
 }
 

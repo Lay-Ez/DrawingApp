@@ -1,7 +1,10 @@
 package com.example.drawapp
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +20,12 @@ class DrawView @JvmOverloads constructor(
     companion object {
         private const val STROKE_WIDTH = 12f
     }
+
+    interface OnCanvasTouchListener {
+        fun onCanvasTouched()
+    }
+
+    private val canvasTouchListeners = mutableListOf<OnCanvasTouchListener>()
 
     private lateinit var extraCanvas: Canvas
     private lateinit var extraBitmap: Bitmap
@@ -71,6 +80,7 @@ class DrawView @JvmOverloads constructor(
     }
 
     private fun touchStart() {
+        canvasTouchListeners.forEach { it.onCanvasTouched() }
         path.reset()
         path.moveTo(motionTouchEventX, motionTouchEventY)
         restartCurrentXY()
@@ -109,5 +119,13 @@ class DrawView @JvmOverloads constructor(
         canvas.drawBitmap(extraBitmap, 0f, 0f, null)
         canvas.drawPath(drawing, paint)
         canvas.drawPath(curPath, paint)
+    }
+
+    fun addTouchListener(touchListener: OnCanvasTouchListener) {
+        canvasTouchListeners.add(touchListener)
+    }
+
+    fun removeTouchListener(touchListener: OnCanvasTouchListener) {
+        canvasTouchListeners.remove(touchListener)
     }
 }

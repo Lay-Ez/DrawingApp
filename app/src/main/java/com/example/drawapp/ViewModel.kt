@@ -66,6 +66,13 @@ class ViewModel : BaseViewModel<ViewState>() {
                     isToolsVisible = !previousState.isToolsVisible
                 )
             }
+            is UiEvent.OnCanvasTouched -> {
+                return previousState.copy(
+                    isPaletteVisible = false,
+                    isBrushSizeChangerVisible = false,
+                    isToolsVisible = false
+                )
+            }
         }
         return null
     }
