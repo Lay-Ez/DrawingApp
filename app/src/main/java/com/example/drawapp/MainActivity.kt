@@ -60,4 +60,3 @@ class MainActivity : AppCompatActivity(), DrawView.OnCanvasTouchListener {
         viewModel.processUiEvent(UiEvent.OnCanvasTouched)
     }
 }
-

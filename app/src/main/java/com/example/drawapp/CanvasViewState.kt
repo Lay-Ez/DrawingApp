@@ -39,8 +39,8 @@ enum class TOOLS(
     val value: Int,
     val toolId: ToolId
 ) {
-    NORMAL(R.drawable.ic_baseline_brush_24, ToolId.NORMAL_TOOL),
-    STROKE(R.drawable.ic_baseline_brush_24, ToolId.STROKE_TOOL),
+    NORMAL(R.drawable.ic_straight_line, ToolId.NORMAL_TOOL),
+    STROKE(R.drawable.ic_dash_line_24, ToolId.STROKE_TOOL),
     SIZE(R.drawable.ic_brush_size_large, ToolId.SIZE_TOOL),
     PALETTE(R.drawable.ic_baseline_palette_24, ToolId.COLOR_TOOL);
 
