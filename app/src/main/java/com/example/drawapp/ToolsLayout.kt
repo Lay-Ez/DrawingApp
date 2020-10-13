@@ -39,6 +39,13 @@ class ToolsLayout @JvmOverloads constructor(
             if (toolItem is ToolItem.ToolModel && toolItem.toolId == TOOLS.ToolId.COLOR_TOOL) {
                 toolItem.currentColor = canvasViewState.color.value
             }
+            if (toolItem is ToolItem.ToolModel && toolItem.toolId == TOOLS.ToolId.SIZE_TOOL) {
+                when (canvasViewState.size) {
+                    SIZE.SMALL -> toolItem.icon = R.drawable.ic_brush_size_small
+                    SIZE.MEDIUM -> toolItem.icon = R.drawable.ic_brush_size_medium
+                    SIZE.LARGE -> toolItem.icon = R.drawable.ic_brush_size_large
+                }
+            }
         }
         adapterDelegate.items = list
         adapterDelegate.notifyDataSetChanged()
