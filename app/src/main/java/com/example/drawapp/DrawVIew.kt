@@ -14,9 +14,12 @@ class DrawView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    companion object {
-        private const val STROKE_WIDTH = 12f
+
+    interface OnCanvasTouchListener {
+        fun onCanvasTouched()
     }
+
+    private val canvasTouchListeners = mutableListOf<OnCanvasTouchListener>()
 
     private lateinit var extraCanvas: Canvas
     private lateinit var extraBitmap: Bitmap
@@ -44,13 +47,31 @@ class DrawView @JvmOverloads constructor(
         style = Paint.Style.STROKE // default: FILL
         strokeJoin = Paint.Join.ROUND // default: MITER
         strokeCap = Paint.Cap.ROUND // default: BUTT
-        strokeWidth = STROKE_WIDTH // default: Hairline-width (really thin)
     }
 
     fun render(state: CanvasViewState) {
         drawColor = ResourcesCompat.getColor(resources, state.color.value, null)
         paint.color = drawColor
         paint.strokeWidth = state.size.value.toFloat()
+        setCorrectDashEffect(state.isDashed)
+    }
+
+    private fun setCorrectDashEffect(isDashed: Boolean) {
+        if (isDashed) {
+            when (paint.strokeWidth) {
+                SIZE.SMALL.value.toFloat() -> {
+                    paint.pathEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
+                }
+                SIZE.MEDIUM.value.toFloat() -> {
+                    paint.pathEffect = DashPathEffect(floatArrayOf(20f, 20f), 0f)
+                }
+                SIZE.LARGE.value.toFloat() -> {
+                    paint.pathEffect = DashPathEffect(floatArrayOf(40f, 40f), 0f)
+                }
+            }
+        } else {
+            paint.pathEffect = null
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -71,6 +92,7 @@ class DrawView @JvmOverloads constructor(
     }
 
     private fun touchStart() {
+        canvasTouchListeners.forEach { it.onCanvasTouched() }
         path.reset()
         path.moveTo(motionTouchEventX, motionTouchEventY)
         restartCurrentXY()
@@ -109,5 +131,13 @@ class DrawView @JvmOverloads constructor(
         canvas.drawBitmap(extraBitmap, 0f, 0f, null)
         canvas.drawPath(drawing, paint)
         canvas.drawPath(curPath, paint)
+    }
+
+    fun addTouchListener(touchListener: OnCanvasTouchListener) {
+        canvasTouchListeners.add(touchListener)
+    }
+
+    fun removeTouchListener(touchListener: OnCanvasTouchListener) {
+        canvasTouchListeners.remove(touchListener)
     }
 }

@@ -3,7 +3,7 @@ package com.example.drawapp
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
-data class CanvasViewState(val color: COLOR, val size: SIZE)
+data class CanvasViewState(val color: COLOR, val size: SIZE, val isDashed: Boolean)
 
 enum class COLOR(
     @ColorRes
@@ -36,11 +36,19 @@ enum class SIZE(
 
 enum class TOOLS(
     @DrawableRes
-    val value: Int
+    val value: Int,
+    val toolId: ToolId
 ) {
-    NORMAL(R.drawable.ic_baseline_brush_24),
-    STROKE(R.drawable.ic_baseline_brush_24),
-    SIZE(R.drawable.ic_baseline_brush_24),
-    PALETTE(R.drawable.ic_baseline_brightness_1_24)
+    NORMAL(R.drawable.ic_straight_line, ToolId.NORMAL_TOOL),
+    STROKE(R.drawable.ic_dash_line_24, ToolId.STROKE_TOOL),
+    SIZE(R.drawable.ic_brush_size_large, ToolId.SIZE_TOOL),
+    PALETTE(R.drawable.ic_baseline_palette_24, ToolId.COLOR_TOOL);
+
+    enum class ToolId {
+        NORMAL_TOOL,
+        STROKE_TOOL,
+        COLOR_TOOL,
+        SIZE_TOOL
+    }
 }
 

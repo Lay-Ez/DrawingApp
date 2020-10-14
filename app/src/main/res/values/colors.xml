@@ -9,4 +9,6 @@
     <color name="colorPaintRed">#FF0000</color>
     <color name="colorPaintBlue">#0040FF</color>
     <color name="colorPaintGreen">#00C853</color>
+
+    <color name="colorSelectedTool">#000000</color>
 </resources>

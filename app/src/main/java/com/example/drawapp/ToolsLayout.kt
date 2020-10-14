@@ -14,7 +14,7 @@ class ToolsLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : CardView(context, attrs, defStyleAttr) {
 
-    private var onClick: (Int) -> Unit = {}
+    private var onClick: (ToolItem) -> Unit = {}
 
     private val adapterDelegate = ListDelegationAdapter(
         colorAdapterDelegate {
@@ -34,11 +34,28 @@ class ToolsLayout @JvmOverloads constructor(
         toolsList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    fun render(list: List<ToolItem>) {
+    fun render(list: List<ToolItem>, viewState: ViewState) {
+        val canvasViewState = viewState.canvasViewState
+        list.forEach { toolItem ->
+            if (toolItem is ToolItem.ToolModel && toolItem.toolId == TOOLS.ToolId.COLOR_TOOL) {
+                toolItem.currentColor = canvasViewState.color.value
+            }
+            if (toolItem is ToolItem.ToolModel && toolItem.toolId == TOOLS.ToolId.SIZE_TOOL) {
+                when (canvasViewState.size) {
+                    SIZE.SMALL -> toolItem.icon = R.drawable.ic_brush_size_small
+                    SIZE.MEDIUM -> toolItem.icon = R.drawable.ic_brush_size_medium
+                    SIZE.LARGE -> toolItem.icon = R.drawable.ic_brush_size_large
+                }
+            }
+            if (toolItem is ToolItem.ToolModel) {
+                toolItem.isSelected = toolItem.toolId == viewState.selectedTool
+            }
+        }
         adapterDelegate.items = list
+        adapterDelegate.notifyDataSetChanged()
     }
 
-    fun setOnClickListener(onClick: (Int) -> Unit) {
+    fun setOnClickListener(onClick: (ToolItem) -> Unit) {
         this.onClick = onClick
     }
 }
