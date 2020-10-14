@@ -10,6 +10,7 @@ sealed class ToolItem : Item {
     data class ToolModel(
         @DrawableRes var icon: Int,
         val toolId: TOOLS.ToolId,
-        @ColorRes var currentColor: Int
+        @ColorRes var currentColor: Int,
+        var isSelected: Boolean = false
     ) : ToolItem()
 }

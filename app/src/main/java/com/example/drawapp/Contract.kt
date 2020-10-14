@@ -10,7 +10,7 @@ data class ViewState(
     val isPaletteVisible: Boolean,
     val isBrushSizeChangerVisible: Boolean,
     val isToolsVisible: Boolean,
-    val selectedTool: ToolItem.ToolModel
+    val selectedTool: TOOLS.ToolId
 )
 
 sealed class UiEvent() : Event{

@@ -3,7 +3,7 @@ package com.example.drawapp
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
-data class CanvasViewState(val color: COLOR, val size: SIZE)
+data class CanvasViewState(val color: COLOR, val size: SIZE, val isDashed: Boolean)
 
 enum class COLOR(
     @ColorRes

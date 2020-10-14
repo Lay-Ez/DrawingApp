@@ -45,13 +45,13 @@ class MainActivity : AppCompatActivity(), DrawView.OnCanvasTouchListener {
 
     private fun render(viewState: ViewState) {
         colorPalette.showIf(viewState.isPaletteVisible)
-        colorPalette.render(viewState.colorList, viewState.canvasViewState)
+        colorPalette.render(viewState.colorList, viewState)
 
         size.showIf(viewState.isBrushSizeChangerVisible)
-        size.render(viewState.sizeList, viewState.canvasViewState)
+        size.render(viewState.sizeList, viewState)
 
         tools.showIf(viewState.isToolsVisible)
-        tools.render(viewState.toolsList, viewState.canvasViewState)
+        tools.render(viewState.toolsList, viewState)
 
         drawView.render(viewState.canvasViewState)
     }

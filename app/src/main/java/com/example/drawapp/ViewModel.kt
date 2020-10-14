@@ -15,15 +15,11 @@ class ViewModel : BaseViewModel<ViewState>() {
         },
         colorList = enumValues<COLOR>().map { ToolItem.ColorModel(it.value) },
         sizeList = enumValues<SIZE>().map { ToolItem.SizeModel(it.value) },
-        canvasViewState = CanvasViewState(COLOR.BLACK, SIZE.SMALL),
+        canvasViewState = CanvasViewState(COLOR.BLACK, SIZE.SMALL, false),
         isPaletteVisible = false,
         isBrushSizeChangerVisible = false,
         isToolsVisible = false,
-        selectedTool = ToolItem.ToolModel(
-            R.drawable.ic_baseline_brush_24,
-            TOOLS.ToolId.NORMAL_TOOL,
-            COLOR.BLACK.value
-        )
+        selectedTool = TOOLS.ToolId.NORMAL_TOOL
     )
 
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
@@ -35,6 +31,7 @@ class ViewModel : BaseViewModel<ViewState>() {
                     )
                 )
             }
+
             is UiEvent.OnSizeClick -> {
                 return previousState.copy(
                     canvasViewState = previousState.canvasViewState.copy(
@@ -42,6 +39,7 @@ class ViewModel : BaseViewModel<ViewState>() {
                     )
                 )
             }
+
             is UiEvent.OnToolsClick -> {
                 return when ((event.toolItem as ToolItem.ToolModel).toolId) {
                     TOOLS.ToolId.SIZE_TOOL -> {
@@ -56,16 +54,31 @@ class ViewModel : BaseViewModel<ViewState>() {
                             isBrushSizeChangerVisible = false
                         )
                     }
-                    else -> {
-                        return null
+                    TOOLS.ToolId.NORMAL_TOOL -> {
+                        return previousState.copy(
+                            canvasViewState = previousState.canvasViewState.copy(
+                                isDashed = false
+                            ),
+                            selectedTool = TOOLS.ToolId.NORMAL_TOOL
+                        )
+                    }
+                    TOOLS.ToolId.STROKE_TOOL -> {
+                        return previousState.copy(
+                            canvasViewState = previousState.canvasViewState.copy(
+                                isDashed = true
+                            ),
+                            selectedTool = TOOLS.ToolId.STROKE_TOOL
+                        )
                     }
                 }
             }
+
             is UiEvent.OnToolbarClicked -> {
                 return previousState.copy(
                     isToolsVisible = !previousState.isToolsVisible
                 )
             }
+
             is UiEvent.OnCanvasTouched -> {
                 return previousState.copy(
                     isPaletteVisible = false,

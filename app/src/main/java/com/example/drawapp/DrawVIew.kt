@@ -1,10 +1,7 @@
 package com.example.drawapp
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +14,7 @@ class DrawView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
+
     companion object {
         private const val STROKE_WIDTH = 12f
     }
@@ -60,6 +58,25 @@ class DrawView @JvmOverloads constructor(
         drawColor = ResourcesCompat.getColor(resources, state.color.value, null)
         paint.color = drawColor
         paint.strokeWidth = state.size.value.toFloat()
+        setCorrectDashEffect(state.isDashed)
+    }
+
+    private fun setCorrectDashEffect(isDashed: Boolean) {
+        if (isDashed) {
+            when (paint.strokeWidth) {
+                SIZE.SMALL.value.toFloat() -> {
+                    paint.pathEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
+                }
+                SIZE.MEDIUM.value.toFloat() -> {
+                    paint.pathEffect = DashPathEffect(floatArrayOf(20f, 20f), 0f)
+                }
+                SIZE.LARGE.value.toFloat() -> {
+                    paint.pathEffect = DashPathEffect(floatArrayOf(40f, 40f), 0f)
+                }
+            }
+        } else {
+            paint.pathEffect = null
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

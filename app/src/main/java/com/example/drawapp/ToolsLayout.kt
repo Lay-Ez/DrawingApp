@@ -34,7 +34,8 @@ class ToolsLayout @JvmOverloads constructor(
         toolsList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    fun render(list: List<ToolItem>, canvasViewState: CanvasViewState) {
+    fun render(list: List<ToolItem>, viewState: ViewState) {
+        val canvasViewState = viewState.canvasViewState
         list.forEach { toolItem ->
             if (toolItem is ToolItem.ToolModel && toolItem.toolId == TOOLS.ToolId.COLOR_TOOL) {
                 toolItem.currentColor = canvasViewState.color.value
@@ -45,6 +46,9 @@ class ToolsLayout @JvmOverloads constructor(
                     SIZE.MEDIUM -> toolItem.icon = R.drawable.ic_brush_size_medium
                     SIZE.LARGE -> toolItem.icon = R.drawable.ic_brush_size_large
                 }
+            }
+            if (toolItem is ToolItem.ToolModel) {
+                toolItem.isSelected = toolItem.toolId == viewState.selectedTool
             }
         }
         adapterDelegate.items = list

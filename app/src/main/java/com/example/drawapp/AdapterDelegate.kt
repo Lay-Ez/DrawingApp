@@ -2,6 +2,7 @@ package com.example.drawapp
 
 import android.graphics.PorterDuff
 import com.example.drawapp.base.Item
+import com.example.drawapp.base.showIf
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateLayoutContainer
 import kotlinx.android.synthetic.main.item_palette.view.*
@@ -47,6 +48,7 @@ fun toolsAdapterDelegate(
             context.resources.getColor(item.currentColor),
             PorterDuff.Mode.SRC_IN
         )
+        itemView.selected.showIf(item.isSelected)
         itemView.setOnClickListener {
             onToolsClick(item)
         }
