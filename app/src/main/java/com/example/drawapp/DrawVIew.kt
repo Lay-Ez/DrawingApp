@@ -15,10 +15,6 @@ class DrawView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    companion object {
-        private const val STROKE_WIDTH = 12f
-    }
-
     interface OnCanvasTouchListener {
         fun onCanvasTouched()
     }
@@ -51,7 +47,6 @@ class DrawView @JvmOverloads constructor(
         style = Paint.Style.STROKE // default: FILL
         strokeJoin = Paint.Join.ROUND // default: MITER
         strokeCap = Paint.Cap.ROUND // default: BUTT
-        strokeWidth = STROKE_WIDTH // default: Hairline-width (really thin)
     }
 
     fun render(state: CanvasViewState) {
